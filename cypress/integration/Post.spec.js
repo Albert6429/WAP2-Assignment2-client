@@ -1,6 +1,5 @@
-const apiURL = "http://localhost:3000/posts/";
 const login = () => {
-  cy.visit("http://localhost:8080/");
+  cy.visit("https://mymicrobogvue.herokuapp.com/");
   cy.get("button[data-test=loginbtn]").click();
   cy.url().should("include", '/login');
   cy.get("input[data-test=username]").type('GYF');
@@ -13,11 +12,11 @@ const login = () => {
 describe("WritePost page", () => {
   beforeEach(() => {
     //User Initialization
-    cy.request("http://localhost:3000/users/")
+    cy.request("https://microblog-staging-api.herokuapp.com/users/")
       .its("body")
       .then(users => {
         users.forEach(element => {
-          cy.request("DELETE", `http://localhost:3000/deleteUser/${element._id}`);
+          cy.request("DELETE", `https://microblog-staging-api.herokuapp.com/deleteUser/${element._id}`);
         });
       });
     const user = {
@@ -25,14 +24,14 @@ describe("WritePost page", () => {
       password: "123",
       email: "994593696@qq.com"
     };
-    cy.request("POST", `http://localhost:3000/reg`, user);
+    cy.request("POST", `https://microblog-staging-api.herokuapp.com/reg`, user);
 
     //Post Initialization
-    cy.request(apiURL)
+    cy.request('https://microblog-staging-api.herokuapp.com/posts')
       .its("body")
       .then(posts => {
         posts.forEach(element => {
-          cy.request("DELETE", `http://localhost:3000/deletePost/${element._id}`);
+          cy.request("DELETE", `https://microblog-staging-api.herokuapp.com/deletePost/${element._id}`);
         });
       });
 
@@ -41,7 +40,7 @@ describe("WritePost page", () => {
       author: "GYF",
       content: "This is a test of posting"
     };
-    cy.request("POST", `http://localhost:3000/writeposts`, post);
+    cy.request("POST", `https://microblog-staging-api.herokuapp.com/writeposts`, post);
 
   });
 

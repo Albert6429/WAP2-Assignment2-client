@@ -1,6 +1,5 @@
-const apiURL = "http://localhost:3000/posts/";
 const login = () => {
-  cy.visit("http://localhost:8080/");
+  cy.visit("https://mymicrobogvue.herokuapp.com/#/");
   cy.get("button[data-test=loginbtn]").click();
   cy.url().should("include", '/login');
   cy.get("input[data-test=username]").type('GYF');
@@ -32,11 +31,11 @@ const checkDetailView = () => {
 describe('Post list', () => {
   beforeEach(() => {
     //User Initialization
-    cy.request("http://localhost:3000/users/")
+    cy.request("https://microblog-staging-api.herokuapp.com/users/")
       .its("body")
       .then(users => {
         users.forEach(element => {
-          cy.request("DELETE", `http://localhost:3000/deleteUser/${element._id}`);
+          cy.request("DELETE", `https://microblog-staging-api.herokuapp.com/deleteUser/${element._id}`);
         });
       });
     const user = {
@@ -44,14 +43,14 @@ describe('Post list', () => {
       password: "123",
       email: "994593696@qq.com"
     };
-    cy.request("POST", `http://localhost:3000/reg`, user);
+    cy.request("POST", `https://microblog-staging-api.herokuapp.com/reg`, user);
 
     //Post Initialization
-    cy.request("http://localhost:3000/posts/")
+    cy.request("https://microblog-staging-api.herokuapp.com/posts/")
       .its("body")
       .then(posts => {
         posts.forEach(element => {
-          cy.request("DELETE", `http://localhost:3000/deletePost/${element._id}`);
+          cy.request("DELETE", `https://microblog-staging-api.herokuapp.com/deletePost/${element._id}`);
         });
       });
 
@@ -65,9 +64,10 @@ describe('Post list', () => {
       author: "GYF",
       content: "This is a test of posting"
     };
-    cy.request("POST", `http://localhost:3000/writeposts`, post1);
-    cy.request("POST", `http://localhost:3000/writeposts`, post2);
-
+    cy.request("POST", `https://microblog-staging-api.herokuapp.com/writeposts`, post1);
+    cy.wait(500)
+    cy.request("POST", `https://microblog-staging-api.herokuapp.com/writeposts`, post2);
+    cy.wait(500)
   });
 
   it('gets post list page', () => {
@@ -77,6 +77,7 @@ describe('Post list', () => {
       .find(".nav-item")
       .eq(1)
       .click();
+    cy.wait(500)
     cy.url().should("include", "/posts");
     cy.get("tbody")
       .find("tr")
@@ -99,6 +100,7 @@ describe('Post list', () => {
         cy.get("button")
           .contains("Delete")
           .click();
+        cy.wait(500)
         cy.get("button")
           .contains("OK")
           .click();
@@ -138,6 +140,7 @@ describe('Post list', () => {
         .find(".nav-item")
         .eq(1)
         .click();
+      cy.wait(500)
       cy.url().should("include", "/posts");
       cy.get("tbody")
         .find("tr")

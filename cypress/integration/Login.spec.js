@@ -1,11 +1,11 @@
 describe("Login page", () => {
   beforeEach(() => {
     //User Initialization
-    cy.request("http://localhost:3000/users/")
+    cy.request("https://microblog-staging-api.herokuapp.com/users/")
       .its("body")
       .then(users => {
         users.forEach(element => {
-          cy.request("DELETE", `http://localhost:3000/deleteUser/${element._id}`);
+          cy.request("DELETE", `https://microblog-staging-api.herokuapp.com/deleteUser/${element._id}`);
         });
       });
 
@@ -14,9 +14,9 @@ describe("Login page", () => {
       password: "123",
       email: "994593696@qq.com"
     };
-    cy.request("POST", `http://localhost:3000/reg`, user);
+    cy.request("POST", `https://microblog-staging-api.herokuapp.com/reg`, user);
 
-    cy.visit("http://localhost:8080/");
+    cy.visit("https://mymicrobogvue.herokuapp.com/#/");
     cy.get("button[data-test=loginbtn]").click();
     cy.url().should("include", '/login');
   });

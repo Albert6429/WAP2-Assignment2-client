@@ -1,6 +1,6 @@
 describe("Before login", () => {
   beforeEach(() => {
-    cy.visit("http://localhost:8080/");
+    cy.visit("https://mymicrobogvue.herokuapp.com/#/");
   });
 
   describe("Home page", () => {

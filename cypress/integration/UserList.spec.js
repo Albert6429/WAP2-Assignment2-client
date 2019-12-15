@@ -1,6 +1,6 @@
-const apiURL = "http://localhost:3000/users/";
+
 const login = () => {
-  cy.visit("http://localhost:8080/");
+  cy.visit("https://mymicrobogvue.herokuapp.com/#/");
   cy.get("button[data-test=loginbtn]").click();
   cy.url().should("include", '/login');
   cy.get("input[data-test=username]").type('GYF');
@@ -12,11 +12,11 @@ const login = () => {
 
 describe('User list', () => {
   beforeEach(() => {
-    cy.request("http://localhost:3000/users/")
+    cy.request("https://microblog-staging-api.herokuapp.com/users/")
       .its("body")
       .then(users => {
         users.forEach(element => {
-          cy.request("DELETE", `http://localhost:3000/deleteUser/${element._id}`);
+          cy.request("DELETE", `https://microblog-staging-api.herokuapp.com/deleteUser/${element._id}`);
         });
       });
 
@@ -25,13 +25,13 @@ describe('User list', () => {
       password: "123",
       email: "994593696@qq.com"
     };
-    cy.request("POST", `http://localhost:3000/reg`, user1);
+    cy.request("POST", `https://microblog-staging-api.herokuapp.com/reg`, user1);
     const user2 = {
       username: "Jack",
       password: "123",
       email: "123456789@qq.com"
     };
-    cy.request("POST", `http://localhost:3000/reg`, user2);
+    cy.request("POST", `https://microblog-staging-api.herokuapp.com/reg`, user2);
   });
 
   it('gets user list page', () => {
@@ -50,12 +50,14 @@ describe('User list', () => {
   describe('Follow one user', () => {
     it("adds 1 follow", () => {
       login();
+      cy.wait(500)
       cy.get(".navbar-nav")
         .eq(0)
         .find(".nav-item")
         .eq(3)
         .click();
       cy.url().should("include", "/userlist");
+      cy.wait(500)
       cy.get("tbody")
         .find("tr")
         .eq(0)
