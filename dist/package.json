@@ -1,0 +1,10 @@
+{
+  "name": "microblogvue",
+  "version": "1.0.0",
+  "description": "microblog vue",
+  "author": "Yifan Gu",
+  "private": true,
+  "scripts": {
+    "postinstall": "npm install express"
+  }
+}
